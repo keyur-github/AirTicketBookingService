@@ -8,6 +8,7 @@ class BookingRepository {
     async create(data) {
         try {
             const booking = await Booking.create(data);
+            return booking;
         } 
         catch (error) {
             if(error.name == "SequelizeValidationError") {
@@ -17,6 +18,26 @@ class BookingRepository {
                 "RepositoryError",
                 "Cannot create booking",
                 "There was some issue creating the booking, please try again later",
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    async update(data, bookingId) {
+        try {
+            console.log("heello");
+            const booking = await Booking.findByPk(bookingId);
+            if(data.status) {
+                booking.status = data.status;
+            }
+            await booking.save();
+            return booking;
+        } 
+        catch (error) {
+            throw new AppError(
+                "RepositoryError",
+                "Cannot update booking",
+                "There was some issue updating the booking, please try again later",
                 StatusCodes.INTERNAL_SERVER_ERROR
             );
         }

@@ -22,9 +22,6 @@ const setUpAndStartServer = () => {
         }
 
     });
-
-
-
 }
 
 setUpAndStartServer();
